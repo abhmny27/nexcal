@@ -44,6 +44,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     </a>
                 `;
             }
+
+})();
+
+// --- 3. FUNGSI MOBILE MENU (HAMBURGER) ---
+document.addEventListener("DOMContentLoaded", function () {
+    const mobileMenu = document.getElementById("mobile-menu");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (mobileMenu && navLinks) {
+        mobileMenu.addEventListener("click", function () {
+            // Toggle class 'active' untuk memunculkan/menyembunyikan menu
+            navLinks.classList.toggle("active");
+            
+            // Toggle aria-expanded untuk aksesibilitas
+            const isExpanded = mobileMenu.getAttribute("aria-expanded") === "true";
+            mobileMenu.setAttribute("aria-expanded", !isExpanded);
         });
+    }
+});
     }
 });
