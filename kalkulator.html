@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Turunan - Nexus Calculus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    
+    <!-- Library Math.js untuk perhitungan kalkulus -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+
+    <!-- CSS Khusus Halaman Kalkulator -->
+    <style>
+        .calculator-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 16px;
+            margin-top: 8px;
+            border-radius: var(--radius-control);
+            border: 1px solid var(--border);
+            background-color: rgba(15, 15, 17, 0.8);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        /* Styling Langkah-langkah */
+        .step-container {
+            margin-top: 32px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step-box {
+            background: rgba(30, 30, 32, 0.4);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin-bottom: 16px;
+            border-radius: var(--radius-control);
+            transition: transform 0.2s ease;
+        }
+
+        .step-box:hover {
+            transform: translateX(4px);
+            background: rgba(40, 40, 42, 0.6);
+        }
+
+        .step-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Styling Hasil Akhir */
+        .final-result {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--primary);
+            padding: 30px;
+            border-radius: var(--radius-card);
+            text-align: center;
+            margin-top: 32px;
+        }
+        
+        .final-result p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .final-result h3 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-family: var(--font-mono);
+            word-break: break-word;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NEXUS <span>CALCULUS</span></div>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Buka menu navigasi" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="login.html" class="btn-primary">Login</a></li>
+            <li><a href="index.html">Materi</a></li>
+            <li><a href="pembahasan.html">Pembahasan</a></li>
+            <li><a href="latihan (1).html">Latihan</a></li>
+            <li><a href="kalkulator.html" class="active">Kalkulator</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <span class="badge">Tools Bantuan</span>
+        <h1 class="display-title">Kalkulator Turunan</h1>
+        <p class="body-text">Masukkan fungsi matematika di bawah ini untuk mencari hasil turunan beserta langkah pengerjaannya secara otomatis.</p>
+    </header>
+
+    <section class="content-section">
+        <div class="card calculator-container">
+            <h2 style="margin-bottom: 24px;">Hitung Turunan f(x)</h2>
+            
+            <div class="input-group">
+                <label for="fungsi">Masukkan Fungsi:</label>
+                <input type="text" id="fungsi" class="input-box" placeholder="Contoh: 3x^2 + sin(x) - 5">
+            </div>
+            
+            <div class="input-group" style="margin-top: 20px;">
+                <label for="variabel">Variabel Terhadap (default: x):</label>
+                <input type="text" id="variabel" class="input-box" value="x" placeholder="x">
+            </div>
+
+            <button onclick="prosesTurunan()" class="btn-primary" style="margin-top: 28px; width: 100%; font-size: 1.1rem; padding: 14px;">Mulai Menghitung</button>
+
+            <!-- Error Box -->
+            <div id="error-box" class="form-error" style="display: none; background: rgba(248, 113, 113, 0.1); border: 1px solid #F87171; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;"></div>
+        </div>
+
+        <!-- Container Langkah-langkah dan Hasil (Dirender via JS) -->
+        <div id="step-container" class="calculator-container step-container">
+            <!-- Hasil HTML akan masuk ke sini -->
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        Dosen Pengampu<br>
+        Dr.Kamariah, S.Pd., M.Pd<br>
+        Created by Danish Abhimanyu<br>
+        &copy; 2026 Nexus Calculus. Dibuat Untuk Memenuhi UAS Kalkulus Lanjutan.
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Logika untuk Membedah dan Menghitung Turunan
+        function prosesTurunan() {
+            const fungsiInput = document.getElementById('fungsi').value.trim();
+            const variabelInput = document.getElementById('variabel').value.trim() || 'x';
+            const stepContainer = document.getElementById('step-container');
+            const errorBox = document.getElementById('error-box');
+
+            // Reset UI
+            stepContainer.style.display = 'none';
+            errorBox.style.display = 'none';
+            stepContainer.innerHTML = '';
+
+            if (!fungsiInput) {
+                errorBox.innerHTML = '<strong>Peringatan!</strong> Silakan masukkan fungsi terlebih dahulu.';
+                errorBox.style.display = 'block';
+                return;
+            }
+
+            try {
+                // 1. Menghitung Hasil Akhir Menggunakan Math.js
+                // Kita gunakan method simplify agar hasilnya lebih rapi (opsional)
+                const turunanMentah = math.derivative(fungsiInput, variabelInput);
+                const hasilAkhir = turunanMentah.toString();
+
+                // 2. Membedah Langkah-Langkah Pengerjaan
+                let stepsHTML = `<h2 style="margin-bottom: 20px; font-weight: 500;">Langkah Penyelesaian:</h2>`;
+                
+                // Langkah 1: Identifikasi
+                stepsHTML += `
+                    <div class="step-box">
+                        <div class="step-title">Langkah 1: Identifikasi Fungsi</div>
+                        <p class="body-text" style="font-family: var(--font-mono); font-size: 1.1rem;">f(${variabelInput}) = ${fungsiInput}</p>
+                    </div>
+                `;
+
+                // Logika Pemisahan Suku berdasarkan + dan - (tanpa memisahkan yang ada di dalam kurung)
+                let sukuFungsi = [];
+                let sukuSaatIni = '';
+                let jumlahKurung = 0;
+                let fungsiBersih = fungsiInput.replace(/\s+/g, ''); // Hapus spasi
+                
+                for (let i = 0; i < fungsiBersih.length; i++) {
+                    const karakter = fungsiBersih[i];
+                    if (karakter === '(') jumlahKurung++;
+                    if (karakter === ')') jumlahKurung--;
+
+                    if ((karakter === '+' || karakter === '-') && jumlahKurung === 0 && i !== 0) {
+                        if (sukuSaatIni !== "") sukuFungsi.push(sukuSaatIni);
+                        sukuSaatIni = karakter; 
+                    } else {
+                        sukuSaatIni += karakter;
+                    }
+                }
+                if (sukuSaatIni !== "") sukuFungsi.push(sukuSaatIni);
+
+                // Langkah 2 & 3: Eksekusi berdasarkan jumlah suku
+                if (sukuFungsi.length > 1) {
+                    // Sifat Penjumlahan/Pengurangan (Linearitas)
+                    let ddxTerms = sukuFungsi.map((s, index) => {
+                        let tanda = s.charAt(0) === '-' ? '-' : '+';
+                        let nilai = (s.charAt(0) === '+' || s.charAt(0) === '-') ? s.substring(1) : s;
+                        if (index === 0 && s.charAt(0) !== '-') tanda = ''; 
+                        return `${tanda} <span style="color:var(--primary);">d/d${variabelInput}</span>[${nilai}]`;
+                    }).join(' ');
+
+                    stepsHTML += `
+                        <div class="step-box">
+                            <div class="step-title">Langkah 2: Terapkan Sifat Penjumlahan/Pengurangan</div>
+                            <p class="body-text">Turunkan masing-masing suku secara terpisah:</p>
+                            <p class="body-text" style="font-family: var(--font-mono); margin-top: 10px;">f'(${variabelInput}) = ${ddxTerms}</p>
+                        </div>
+                    `;
+
+                    // Turunkan masing-masing suku
+                    let hasilTiapSuku = sukuFungsi.map(s => {
+                        try {
+                            return `<span style="color:var(--primary);">d/d${variabelInput}</span>[${s}] &nbsp;&rarr;&nbsp; <strong>${math.derivative(s, variabelInput).toString()}</strong>`;
+                        } catch(e) {
+                            return null;
+                        }
+                    });
+
+                    if (hasilTiapSuku.every(hasil => hasil !== null)) {
+                        stepsHTML += `
+                            <div class="step-box">
+                                <div class="step-title">Langkah 3: Hitung Turunan Tiap Suku</div>
+                                <ul class="body-text" style="padding-left: 20px; font-family: var(--font-mono); line-height: 1.8;">
+                                    ${hasilTiapSuku.map(h => `<li>${h}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Jika fungsinya hanya tunggal (misal: sin(3x) atau x^2)
+                    stepsHTML += `
+                        <div class="step-box">
+                            <div class="step-title">Langkah 2: Terapkan Aturan Dasar / Aturan Rantai (Chain Rule)</div>
+                            <p class="body-text">Fungsi ini terdiri dari satu kesatuan suku. Gunakan rumus dasar turunan atau <em>aturan rantai</em> untuk bagian dalam fungsi (jika fungsi berbentuk komposisi).</p>
+                        </div>
+                    `;
+                }
+
+                // Langkah Terakhir: Hasil Akhir
+                stepsHTML += `
+                    <div class="final-result">
+                        <p>Jawaban Akhir Turunan</p>
+                        <h3>f'(${variabelInput}) = ${hasilAkhir}</h3>
+                    </div>
+                `;
+
+                // Render ke layar
+                stepContainer.innerHTML = stepsHTML;
+                stepContainer.style.display = 'block';
+                
+                // Animasi scroll otomatis ke bawah
+                stepContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (error) {
+                // Tangkap error jika fungsi yang diketik salah format
+                console.error(error);
+                errorBox.innerHTML = `<strong>Error Perhitungan!</strong><br>Format fungsi tidak dapat dipahami. Pastikan penulisan benar, contoh <code>2x^3</code> harus ditulis jelas, atau <code>sin(x)</code> bukan <code>sinx</code>.`;
+                errorBox.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

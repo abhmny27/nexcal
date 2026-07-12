@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Soal & Kuis - Nexus Calculus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    
+    <style>
+        .soal-item { margin-bottom: 30px; }
+        .soal-text { font-size: 1.1rem; margin-bottom: 15px; color: var(--text-primary); }
+        .options-container { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            display: flex; align-items: center; padding: 14px 16px;
+            background-color: rgba(30, 30, 32, 0.4); 
+            border: 1px solid var(--border); border-radius: var(--radius-control);
+            cursor: pointer; transition: all 0.2s ease; color: var(--text-secondary);
+        }
+        .quiz-option:hover { border-color: var(--primary); background-color: rgba(16, 185, 129, 0.05); }
+        .quiz-option input[type="radio"] { display: none; }
+        .quiz-option .radio-circle {
+            width: 20px; height: 20px; border: 2px solid var(--text-secondary);
+            border-radius: 50%; margin-right: 15px; display: flex;
+            align-items: center; justify-content: center; transition: 0.2s ease; flex-shrink: 0;
+        }
+        
+        .quiz-option input[type="radio"]:checked + .radio-circle { border-color: var(--primary); }
+        .quiz-option input[type="radio"]:checked + .radio-circle::after {
+            content: ""; width: 10px; height: 10px; background-color: var(--primary); border-radius: 50%;
+        }
+        .quiz-option input[type="radio"]:checked ~ .option-text { color: var(--text-primary); font-weight: 500; }
+
+        .correct-answer { background-color: rgba(16, 185, 129, 0.1) !important; border-color: var(--primary) !important; color: var(--primary) !important; }
+        .wrong-answer { background-color: rgba(248, 113, 113, 0.1) !important; border-color: #F87171 !important; color: #F87171 !important; }
+
+        .pembahasan-box {
+            display: none; margin-top: 20px; padding: 16px; background: #151515;
+            border-left: 3px solid var(--primary); border-radius: 0 var(--radius-control) var(--radius-control) 0; font-size: 14px;
+        }
+        .pembahasan-box h4 { margin-bottom: 8px; color: var(--primary); font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; }
+
+        .score-board {
+            display: none; background-color: rgba(16, 185, 129, 0.1); border: 1px solid var(--primary);
+            padding: 30px; border-radius: var(--radius-card); text-align: center; margin-bottom: 40px;
+        }
+        .score-board h2 { margin: 10px 0; font-size: 3rem; color: var(--primary); font-family: var(--font-display); }
+
+        /* Desain Kotak Peringatan Sesuai Tema */
+        .warning-box {
+            display: none;
+            background-color: rgba(248, 113, 113, 0.1);
+            border: 1px solid #F87171;
+            padding: 20px;
+            border-radius: var(--radius-control);
+            text-align: center;
+            margin-top: 40px;
+            color: #F87171;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <!-- Panggil Script Auth & Navbar Dinamis -->
+    <script src="script.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NEXUS <span>CALCULUS</span></div>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Buka menu navigasi">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="login.html" class="btn-primary">Login</a></li>
+            <li><a href="index.html">Materi</a></li>
+            <li><a href="pembahasan.html">Pembahasan</a></li>
+            <li><a href="latihan (1).html" class="active">Latihan</a></li>
+            <li><a href="kalkulator.html">Kalkulator</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <span class="badge">Uji Pemahaman</span>
+        <h1 class="display-title">Kuis Turunan Fungsi</h1>
+        <p class="body-text">Pilih jawaban yang menurutmu paling tepat. Pastikan semua soal terisi sebelum dikumpulkan.</p>
+    </header>
+
+    <section class="content-section">
+        <div id="score-board" class="score-board">
+            <p class="body-text" style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Skor Akhir Kamu</p>
+            <h2 id="final-score">0 / 100</h2>
+            <p id="score-message" style="margin-top: 12px; font-weight: 500; color: var(--text-primary);"></p>
+        </div>
+
+        <form id="quiz-form">
+            <div id="soal-container" class="card-grid" style="grid-template-columns: 1fr;"></div>
+            
+            <!-- Kotak Peringatan Custom Tema Nexus -->
+            <div id="warning-box" class="warning-box">
+                <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 8px;">⚠️ Peringatan!</p>
+                <p>Kamu belum menjawab soal nomor: <strong id="unanswered-list" style="font-family: var(--font-mono); font-size: 1.1rem;"></strong></p>
+                <p style="font-size: 0.9rem; margin-top: 8px;">Silakan isi soal-soal tersebut terlebih dahulu sebelum mengumpulkan jawaban.</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding-bottom: 20px;">
+                <button type="button" class="btn-primary" onclick="hitungSkor()" style="font-size: 1.1rem; padding: 14px 32px;">Kumpulkan Jawaban</button>
+            </div>
+        </form>
+    </section>
+
+    <footer class="site-footer">Dosen Pengampu<br>
+        Dr.Kamariah, S.Pd., M.Pd<br>
+        Created by Danish Abhimanyu<br>
+        &copy; 2026 Nexus Calculus. Dibuat Untuk Memenuhi UAS Kalkulus Lanjutan.</footer>
+
+    <!-- Panggil Data Soal -->
+    <script src="soal.js"></script> 
+    
+    <script>
+        const container = document.getElementById('soal-container');
+
+        // --- RENDER SOAL ---
+        function renderSoal() {
+            if (typeof soalData === 'undefined' || soalData.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color:#F87171; text-align:center;">Error: Data soal tidak ditemukan.</p></div>';
+                return;
+            }
+
+            const soalHTML = soalData.map((item, index) => {
+                let optionsHTML = item.options.map(opt => `
+                    <label class="quiz-option" id="label-${item.id}-${opt.label}">
+                        <input type="radio" name="soal-${item.id}" value="${opt.label}">
+                        <span class="radio-circle"></span>
+                        <span class="option-text"><strong>${opt.label}.</strong> ${opt.text}</span>
+                    </label>
+                `).join('');
+
+                return `
+                    <div class="card soal-item" id="card-${item.id}">
+                        <p class="soal-text"><span class="label">Soal ${index + 1}</span><br>${item.soal}</p>
+                        <div class="options-container">${optionsHTML}</div>
+                        <div class="pembahasan-box" id="p-${item.id}">
+                            <h4>Pembahasan:</h4>
+                            <p class="body-text">${item.pembahasan}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = soalHTML;
+        }
+
+        renderSoal();
+
+        // --- VALIDASI & HITUNG SKOR ---
+        function hitungSkor() {
+            const warningBox = document.getElementById('warning-box');
+            const unansweredList = document.getElementById('unanswered-list');
+            
+            // Sembunyikan pesan peringatan setiap kali tombol ditekan
+            warningBox.style.display = 'none'; 
+            
+            // 1. Validasi: Cek apakah ada soal yang belum dijawab
+            let soalBelumDijawab = [];
+            
+            soalData.forEach((item, index) => {
+                const isAnswered = document.querySelector(`input[name="soal-${item.id}"]:checked`);
+                if (!isAnswered) {
+                    soalBelumDijawab.push(index + 1); // Simpan nomor soalnya
+                }
+            });
+
+            // Jika ada soal yang belum dijawab, tampilkan kotak peringatan
+            if (soalBelumDijawab.length > 0) {
+                unansweredList.innerText = soalBelumDijawab.join(", ");
+                warningBox.style.display = 'block';
+                
+                // Scroll halus ke arah kotak peringatan
+                warningBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return; // Hentikan proses penilaian
+            }
+
+            // 2. Proses Penilaian (Hanya berjalan jika semua soal sudah diisi)
+            let score = 0;
+            const poinPerSoal = 100 / soalData.length;
+
+            soalData.forEach(item => {
+                const selectedOption = document.querySelector(`input[name="soal-${item.id}"]:checked`);
+                const pembahasanBox = document.getElementById(`p-${item.id}`);
+                
+                pembahasanBox.style.display = 'block';
+
+                const radios = document.querySelectorAll(`input[name="soal-${item.id}"]`);
+                radios.forEach(radio => {
+                    radio.disabled = true;
+                    radio.parentElement.style.cursor = 'default';
+                });
+
+                const userAnswer = selectedOption.value;
+                const labelDiv = document.getElementById(`label-${item.id}-${userAnswer}`);
+
+                if (userAnswer === item.jawaban) {
+                    score += poinPerSoal;
+                    labelDiv.classList.add('correct-answer');
+                } else {
+                    labelDiv.classList.add('wrong-answer');
+                    const correctLabel = document.getElementById(`label-${item.id}-${item.jawaban}`);
+                    if(correctLabel) correctLabel.classList.add('correct-answer');
+                }
+            });
+
+            // 3. Tampilkan Papan Skor
+            const scoreBoard = document.getElementById('score-board');
+            const finalScoreText = document.getElementById('final-score');
+            const scoreMessage = document.getElementById('score-message');
+
+            // Menyembunyikan tombol kumpulkan jawaban setelah dinilai
+            document.querySelector('button[onclick="hitungSkor()"]').style.display = 'none';
+
+            finalScoreText.innerText = Math.round(score);
+            scoreBoard.style.display = 'block';
+
+            if (score === 100) {
+                scoreMessage.innerText = "Sempurna! Kamu telah menguasai materi turunan dengan sangat baik.";
+            } else if (score >= 70) {
+                scoreMessage.innerText = "Kerja bagus! Perhatikan pembahasannya untuk soal yang masih salah.";
+            } else {
+                scoreMessage.innerText = "Jangan menyerah! Coba pelajari ulang materi dan perhatikan langkah pembahasannya.";
+            }
+
+            scoreBoard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>

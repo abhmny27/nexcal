@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Pengguna - Nexus Calculus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    
+    <!-- Script Auth Guard -->
+    <script src="script.js"></script>
+
+    <style>
+        .profile-container {
+            max-width: 500px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .profile-image-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 4px solid var(--primary);
+            margin: 0 auto 20px;
+            object-fit: cover;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: var(--font-mono);
+        }
+        .data-value {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .btn-danger {
+            background-color: rgba(248, 113, 113, 0.1);
+            color: #F87171 !important;
+            border: 1px solid #F87171;
+            padding: 12px 24px;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 30px;
+            width: 100%;
+        }
+        .btn-danger:hover {
+            background-color: #F87171;
+            color: #050505 !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NEXUS <span>CALCULUS</span></div>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Buka menu navigasi" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="login.html" class="btn-primary">Login</a></li>
+            <li><a href="index.html">Materi</a></li>
+            <li><a href="pembahasan.html">Pembahasan</a></li>
+            <li><a href="latihan (1).html">Latihan</a></li>
+            <li><a href="kalkulator.html">Kalkulator</a></li>
+        </ul>
+    </nav>
+
+    <section class="content-section">
+        <div class="card profile-container">
+            <img src="d97bbb08017ac2309307f0822e63d082.jpg" alt="Ikon Pengguna" class="profile-image-large">
+            <h2 id="display-name" style="margin-bottom: 4px;">Memuat...</h2>
+            <span class="badge" style="margin-bottom: 24px; background: rgba(16, 185, 129, 0.1); color: var(--primary); border-color: var(--primary);">Pelajar Terverifikasi</span>
+
+            <div style="text-align: left; margin-top: 10px;">
+                <div class="data-row">
+                    <span class="data-label">Nama Pengguna</span>
+                    <span class="data-value" id="display-nama-lengkap">-</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">NPM / NIM</span>
+                    <span class="data-value" id="display-npm">-</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jurusan</span>
+                    <span class="data-value" id="display-jurusan">-</span>
+                </div>
+                <div class="data-row" style="border-bottom: none;">
+                    <span class="data-label">Email Login</span>
+                    <span class="data-value" id="display-email">-</span>
+                </div>
+            </div>
+
+            <button onclick="logout()" class="btn-danger">Keluar (Logout)</button>
+        </div>
+    </section>
+
+    <script>
+        // Tarik data saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            const nama = localStorage.getItem('userName') || 'Pengguna';
+            document.getElementById('display-name').textContent = nama;
+            document.getElementById('display-nama-lengkap').textContent = nama;
+            document.getElementById('display-npm').textContent = localStorage.getItem('userNPM') || '-';
+            document.getElementById('display-jurusan').textContent = localStorage.getItem('userJurusan') || '-';
+            document.getElementById('display-email').textContent = localStorage.getItem('userEmail') || '-';
+        });
+
+        // Proses Logout
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembahasan - Nexus Calculus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NEXUS <span>CALCULUS</span></div>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Buka menu navigasi" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="nav-links">
+    <li><a href="login.html" class="btn-primary">Login</a></li>
+    <li><a href="index.html">Materi</a></li>
+    <li><a href="pembahasan.html">Pembahasan</a></li>
+    <li><a href="latihan (1).html">Latihan 50 Soal</a></li>
+    <li><a href="kalkulator.html">Kalkulator</a></li> </ul>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <span class="badge">Langkah demi Langkah</span>
+        <h1 class="display-title">Pembahasan Soal</h1>
+        <p class="body-text">Tiga contoh soal representatif dibahas tuntas di sini &mdash; aljabar, trigonometri, dan aplikasi turunan &mdash; supaya kamu paham alur pengerjaannya sebelum mencoba 50 soal latihan.</p>
+    </header>
+
+    <section class="content-section">
+        <div class="card-grid">
+            <div class="card">
+                <span class="label">Soal Aljabar</span>
+                <h2>y = (2x + 1)&sup2;</h2>
+                <p class="body-text">Gunakan aturan rantai: turunkan bagian luar dahulu, lalu kalikan dengan turunan bagian dalam.</p>
+                <div class="code-block">
+                    <code>y = (2x + 1)&sup2;<br>y' = 2(2x + 1)&sup1; . 2<br>y' = 4(2x + 1)<br>y' = 8x + 4</code>
+                </div>
+                <p class="body-text" style="margin-top:16px;">Alternatif: jabarkan dulu menjadi 4x&sup2; + 4x + 1, baru turunkan suku per suku &mdash; hasilnya sama.</p>
+            </div>
+
+            <div class="card">
+                <span class="label">Soal Trigonometri</span>
+                <h2>f(x) = cos(3x)</h2>
+                <p class="body-text">Turunan cos(u) adalah &minus;u'.sin(u). Di sini u = 3x, sehingga u' = 3.</p>
+                <div class="code-block">
+                    <code>f(x) = cos(3x)<br>f'(x) = -3 . sin(3x)<br>f'(x) = -3 sin(3x)</code>
+                </div>
+                <p class="body-text" style="margin-top:16px;">Pola ini berlaku untuk semua bentuk cos(kx): turunkan menjadi &minus;k sin(kx).</p>
+            </div>
+
+            <div class="card">
+                <span class="label">Aplikasi Turunan</span>
+                <h2>Titik Stasioner f(x) = x&sup3; &minus; 6x&sup2; + 9x</h2>
+                <p class="body-text">Titik stasioner terjadi ketika f'(x) = 0. Cari turunannya, lalu selesaikan persamaan kuadrat.</p>
+                <div class="code-block">
+                    <code>f'(x) = 3x&sup2; - 12x + 9<br>3x&sup2; - 12x + 9 = 0<br>x&sup2; - 4x + 3 = 0<br>(x - 1)(x - 3) = 0<br>x = 1 atau x = 3</code>
+                </div>
+                <p class="body-text" style="margin-top:16px;">Substitusikan x = 1 dan x = 3 ke f(x) untuk mendapatkan koordinat titik stasioner, lalu uji tanda f'(x) di sekitarnya untuk menentukan jenisnya (maksimum atau minimum).</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 24px; text-align: center;">
+            <p class="body-text">Sudah paham polanya? Lanjutkan dengan mengerjakan latihan lengkap.</p>
+            <a href="latihan (1).html" class="btn-primary" style="display:inline-block; margin-top:12px;">Coba 50 Soal Latihan &rarr;</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        Dosen Pengampu<br>
+        Dr.Kamariah, S.Pd., M.Pd<br>
+        Created by Danish Abhimanyu<br>
+        &copy; 2026 Nexus Calculus. Dibuat Untuk Memenuhi UAS Kalkulus Lanjutan.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

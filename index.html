@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Turunan - Nexus Calculus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NEXUS <span>CALCULUS</span></div>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Buka menu navigasi" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="login.html" class="btn-primary">Login</a></li>
+            <li><a href="index.html" class="active">Materi</a></li>
+            <li><a href="pembahasan.html">Pembahasan</a></li>
+            <li><a href="latihan (1).html">Latihan</a></li>
+            <li><a href="kalkulator.html">Kalkulator</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <span class="badge">Ringkasan Matematika SMA</span>
+        <h1 class="display-title">Turunan Fungsi</h1>
+        <p class="body-text">Pelajari gradien garis singgung, rumus dasar aljabar, turunan trigonometri, hingga sketsa grafik dan nilai stasioner.</p>
+    </header>
+
+    <section id="konsep" class="content-section">
+        <div class="card-grid">
+            <div class="card">
+                <span class="label">01 // DEFINISI & GRADIEN</span>
+                <h2>Gradien Garis Singgung</h2>
+                <p class="body-text">Gradien garis singgung pada suatu fungsi merupakan turunan dari fungsi f(x). Dengan menggunakan definisi limit, turunan dirumuskan sebagai:</p>
+                <div class="code-block">
+                    <code>m = f'(x) = lim (h&rarr;0) [f(x+h) - f(x)] / h</code>
+                </div>
+                <p class="body-text" style="margin-top: 16px;">Persamaan garis singgung di titik (x1, y1):<br> <strong>y - y1 = m(x - x1)</strong></p>
+            </div>
+
+            <div class="card" id="rumus">
+                <span class="label">02 // ATURAN DASAR</span>
+                <h2>Rumus Turunan Aljabar</h2>
+                <p class="body-text">Berikut adalah aturan dasar pengerjaan turunan fungsi aljabar:</p>
+                <ul class="body-text" style="padding-left: 20px; margin-bottom: 16px;">
+                    <li>y = k &rArr; <strong>y' = 0</strong></li>
+                    <li>y = kx&#x207f; &rArr; <strong>y' = n.k.x&#x207f;&#x207b;&#xb9;</strong></li>
+                    <li>y = u.v &rArr; <strong>y' = u'.v + u.v'</strong></li>
+                    <li>y = u/v &rArr; <strong>y' = (u'.v - u.v') / v&sup2;</strong></li>
+                </ul>
+                <div class="code-block">
+                    <code>Contoh:<br>y = 5(3x&sup2; + 4)&#x2078;<br>y' = 8 . 5(3x&sup2; + 4)&#x2077; . (6x)<br>y' = 240x(3x&sup2; + 4)&#x2077;</code>
+                </div>
+            </div>
+
+            <div class="card" id="trigonometri">
+                <span class="label">03 // FUNGSI TRIGONOMETRI</span>
+                <h2>Turunan Trigonometri</h2>
+                <p class="body-text">Aturan rantai (chain rule) sangat penting dalam menurunkan fungsi trigonometri berkompleksitas tinggi:</p>
+                <div class="code-block">
+                    <code>f(x) = sin(u) &rArr; f'(x) = u' . cos(u)<br>f(x) = cos(u) &rArr; f'(x) = -u' . sin(u)<br>f(x) = tan(u) &rArr; f'(x) = u' . sec&sup2;(u)</code>
+                </div>
+                <p class="body-text" style="margin-top: 16px;">
+                    <strong>Contoh:</strong><br>
+                    y = tan(3x&sup2; - 5) &rArr; y' = 6x . sec&sup2;(3x&sup2; - 5)
+                </p>
+            </div>
+
+            <div class="card" id="aplikasi">
+                <span class="label">04 // APLIKASI TURUNAN</span>
+                <h2>Kemonotonan & Stasioner</h2>
+                <p class="body-text">Turunan digunakan untuk mensketsa grafik dan mencari nilai ekstrim (maksimum/minimum):</p>
+                <ul class="body-text" style="padding-left: 20px;">
+                    <li>Fungsi <strong>Naik</strong> saat f'(x) > 0</li>
+                    <li>Fungsi <strong>Turun</strong> saat f'(x) < 0</li>
+                    <li>Syarat <strong>Stasioner</strong> &rArr; f'(x) = 0</li>
+                    <li>Titik <strong>Belok</strong> &rArr; f''(x) = 0</li>
+                </ul>
+
+                <div class="code-block">
+                    <code>f(x) = x&sup3; - 6x&sup2; + 9x<br>Syarat stasioner: f'(x) = 0<br>3x&sup2; - 12x + 9 = 0<br>x = 3 atau x = 1</code>
+                </div>
+            </div>
+
+            <!-- Tab Referensi Tambahan (Diubah Menjadi Spesial & Tengah) -->
+            <div class="card" id="referensi" style="grid-column: 1 / -1; text-align: center; background: rgba(16, 185, 129, 0.05); border: 1px solid var(--primary); padding: 40px 20px;">
+                <span class="label" style="display: inline-block; margin-bottom: 12px; border-bottom: 2px solid var(--primary); padding-bottom: 4px;">REFERENSI</span>
+                <h2 style="margin-bottom: 16px;">Sumber Materi</h2>
+                <p class="body-text" style="max-width: 600px; margin: 0 auto;">Materi, rumus, dan kumpulan soal dalam modul ini disadur dari buku <strong>Ringkasan Matematika SMA</strong> (Bab 15: Turunan, Halaman 355–382).</p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        Dosen Pengampu<br>
+        Dr.Kamariah, S.Pd., M.Pd<br>
+        Created by Danish Abhimanyu<br>
+        &copy; 2026 Nexus Calculus. Dibuat Untuk Memenuhi UAS Kalkulus Lanjutan.
+    </footer>
+
+    <!-- Script Navbar & Auth -->
+    <script src="script.js"></script>
+</body>
+</html>

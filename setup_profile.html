@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengkapi Profil - Nexus Calculus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+
+    <!-- WAJIB DIMUAT DI ATAS -->
+    <script src="script.js"></script>
+</head>
+<body class="auth-page">
+    <div class="card auth-card">
+        <h2 style="margin-bottom: 8px;">Lengkapi Data Diri</h2>
+        <p class="body-text" style="font-size: 14px; margin-bottom: 24px;">Silakan masukkan identitas akademik Anda sebelum memulai pembelajaran.</p>
+        
+        <form id="setup-form">
+            <div class="input-group">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Masukkan nama Anda" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="npm">NPM / NIM</label>
+                <input type="text" id="npm" placeholder="Contoh: 2301010..." required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="jurusan">Jurusan / Program Studi</label>
+                <input type="text" id="jurusan" placeholder="Contoh: Teknik Informatika" required autocomplete="off">
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px; padding: 12px;">Simpan Profil</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('setup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simpan profil ke database lokal
+            localStorage.setItem('userName', document.getElementById('nama').value);
+            localStorage.setItem('userNPM', document.getElementById('npm').value);
+            localStorage.setItem('userJurusan', document.getElementById('jurusan').value);
+            localStorage.setItem('isProfileComplete', 'true'); 
+            
+            // Masuk ke beranda materi
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

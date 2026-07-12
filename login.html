@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Nexus Calculus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    
+    <!-- WAJIB DIMUAT DI ATAS AGAR AUTH GUARD BEKERJA -->
+    <script src="script.js"></script>
+</head>
+<body class="auth-page">
+    <div class="card auth-card">
+        <h2 style="margin-bottom: 24px;">Selamat Datang Kembali</h2>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="nama@email.com" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px; padding: 12px;">Masuk Sekarang</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            // Simpan status login
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', document.getElementById('email').value);
+            
+            // Arahkan ke halaman biodata
+            window.location.href = 'setup_profile.html';
+        });
+    </script>
+</body>
+</html>
