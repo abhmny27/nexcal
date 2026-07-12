@@ -44,8 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     </a>
                 `;
             }
-
-})();
+        });
+    }
+});
 
 // --- 3. FUNGSI MOBILE MENU (HAMBURGER) ---
 document.addEventListener("DOMContentLoaded", function () {
@@ -61,7 +62,5 @@ document.addEventListener("DOMContentLoaded", function () {
             const isExpanded = mobileMenu.getAttribute("aria-expanded") === "true";
             mobileMenu.setAttribute("aria-expanded", !isExpanded);
         });
-    }
-});
     }
 });
